@@ -1,0 +1,19 @@
+
+Assuming you have glusterfs-4.1.5 installed.
+
+% dnf install -y glusterfs-api-devel
+  alternative: yum -y install glusterfs-api-devel
+% autogen.sh
+% ./configure
+% make
+  optional: make install (warning, installs in /usr/local/...)
+% make dist
+% rpmbuild -ts glusterfs-posix2-4.1.5.tar.gz
+% rpm -i ~/rpmbuild/SRPMS/glusterfs-posix2-4.1.5-1.src.rpm
+% cd ~/rpmbuild && rpmbuild -ba SPECS/glusterfs-posix2.spec
+% dnf install -y RPMS/x86_64/glusterfs-posix2-4.1.5-1.x86_64.rpm
+% profit
+
+ 
+
+

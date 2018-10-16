@@ -1,0 +1,3 @@
+SUBDIRS = posix2
+
+CLEANFILES =

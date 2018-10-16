@@ -1,5 +1,2 @@
-
-miscellaneous xlators built outside the glusterfs main source tree
-
-xlators are on their own branches
-
+Example of a simple autoconf config and RPM spec file for building
+GlusterFS xlators outside the build tree.

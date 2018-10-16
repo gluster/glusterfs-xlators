@@ -1,0 +1,35 @@
+Summary:          Experimental posix2 xlator
+Name:             @PACKAGE_NAME@
+Version:          @PACKAGE_VERSION@
+Release:          @PACKAGE_RELEASE@
+Vendor:           Gluster Community
+License:          GPLv3
+Group:            System Environment/Base
+BuildRequires:    glusterfs-api-devel >= 3.12.0
+URL:              http://www.gluster.org/docs/index.php/GlusterFS
+Source0:          @PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
+
+%description
+glusterfs-posix2 xlator blah blah blah
+
+%prep
+
+%setup
+
+%build
+./autogen.sh
+%configure
+make
+
+%install
+make DESTDIR=${RPM_BUILD_ROOT} install
+find %{buildroot}%{_libdir} -name '*.la' -delete
+
+%clean
+rm -rf ${RPM_BUILD_ROOT}
+
+%files
+     %{_libdir}/libposix2common.so*
+%dir %{_libdir}/glusterfs/%{version}%{?prereltag}/xlator/experimental
+     %{_libdir}/glusterfs/%{version}%{?prereltag}/xlator/experimental/posix2-ds.so*
+     %{_libdir}/glusterfs/%{version}%{?prereltag}/xlator/experimental/posix2-mds.so*

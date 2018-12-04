@@ -6,7 +6,7 @@ AC_INIT([glusterfs-posix2], [1.0], [bugmenot@gluster.org])
 
 AC_SUBST([PACKAGE_RELEASE], 1)
 
-AM_INIT_AUTOMAKE(tar-pax)
+AM_INIT_AUTOMAKE(tar-pax foreign)
 
 AC_CONFIG_HEADER([config.h])
 

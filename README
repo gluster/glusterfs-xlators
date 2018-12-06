@@ -1,5 +1,17 @@
 
 miscellaneous xlators built outside the glusterfs main source tree
 
-xlators are on their own branches
+
+Currently this repo contains below xlators from glusterfs:
+
+* cluster/stripe
+* cluster/tier (was part of DHT)
+* features/changetimerecorder (required for tier)
+* features/glupy
+* encryption/crypt
+* encryption/rot-13
+* experimental/dht2
+* experimental/posix2
+* experimental/jbr
+* experimental/fdl
 

@@ -3427,6 +3427,8 @@ crypt_lookup_cbk(call_frame_t *frame, void *cookie, xlator_t *this,
     if (xdata)
         local->xdata = dict_ref(xdata);
     gf_uuid_copy(local->loc->gfid, buf->ia_gfid);
+    gf_uuid_copy(inode->gfid, buf->ia_gfid);
+    inode->ia_type = IA_IFREG;
 
     STACK_WIND(frame, load_file_size, FIRST_CHILD(this),
                FIRST_CHILD(this)->fops->getxattr, local->loc,

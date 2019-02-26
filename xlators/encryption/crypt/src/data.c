@@ -287,6 +287,8 @@ data_alloc_block(xlator_t *this, crypt_local_t *local, int32_t block_size)
 {
     struct iobuf *iobuf = NULL;
 
+    int is_iobref_new = 0;
+
     iobuf = iobuf_get2(this->ctx->iobuf_pool, block_size);
     if (!iobuf) {
         gf_log("crypt", GF_LOG_ERROR, "Failed to get iobuf");
@@ -294,6 +296,7 @@ data_alloc_block(xlator_t *this, crypt_local_t *local, int32_t block_size)
     }
     if (!local->iobref_data) {
         local->iobref_data = iobref_new();
+        is_iobref_new = 1;
         if (!local->iobref_data) {
             gf_log("crypt", GF_LOG_ERROR, "Failed to get iobref");
             iobuf_unref(iobuf);
@@ -301,6 +304,11 @@ data_alloc_block(xlator_t *this, crypt_local_t *local, int32_t block_size)
         }
     }
     iobref_add(local->iobref_data, iobuf);
+
+    if(is_iobref_new == 1){
+        iobuf_unref(iobuf);
+    }
+
     return iobuf->ptr;
 }
 

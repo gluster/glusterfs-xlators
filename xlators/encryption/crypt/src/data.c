@@ -28,6 +28,20 @@ set_iv_aes_xts(off_t offset, struct object_cipher_info *object)
     /* ivec is padded with zeroes */
 }
 
+static void
+set_iv_to_aes_xts(off_t offset, unsigned char *ivec)
+{
+    /* convert the tweak into a little-endian byte
+     * array (IEEE P1619/D16, May 2007, section 5.1)
+     */
+
+    int64_t tmp_offset = (long long int)offset;
+
+    *((int64_t *)ivec) = htole64(tmp_offset);
+
+    /* ivec is padded with zeroes */
+}
+
 static int32_t
 aes_set_keys_common(unsigned char *raw_key, uint32_t key_size, AES_KEY *keys)
 {
@@ -124,6 +138,11 @@ encrypt_aes_xts(const unsigned char *from, unsigned char *to, size_t length,
                 off_t offset, const int enc, struct object_cipher_info *object)
 {
     XTS128_CONTEXT ctx;
+    unsigned char ivec[16];
+    memset(ivec, 0, 16);
+
+    set_iv_to_aes_xts(offset, ivec);
+
     if (enc) {
         ctx.key1 = &object->u.aes_xts.dkey[AES_ENCRYPT];
         ctx.block1 = (block128_f)AES_encrypt;
@@ -134,8 +153,7 @@ encrypt_aes_xts(const unsigned char *from, unsigned char *to, size_t length,
     ctx.key2 = &object->u.aes_xts.tkey;
     ctx.block2 = (block128_f)AES_encrypt;
 
-    return CRYPTO_xts128_encrypt(&ctx, object->u.aes_xts.ivec, from, to, length,
-                                 enc);
+    return CRYPTO_xts128_encrypt(&ctx, ivec, from, to, length, enc);
 }
 
 /*
